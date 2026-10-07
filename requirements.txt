@@ -1,0 +1,9 @@
+streamlit
+python-dotenv
+google
+streamlit
+python-dotenv
+ 
+google-genai
+groq
+openai

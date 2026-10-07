@@ -1,0 +1,17 @@
+[33mcommit 4d2a3b63803a50aec53350123fa02d939d4ebd28[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: savitagayakhe <102364266+savitagayakhe@users.noreply.github.com>
+Date:   Wed Oct 7 04:27:24 2026 +0000
+
+    Remove secrets from repository
+
+[33mcommit ed2a8d6b63087703798fec70e04558d49232cdcf[m
+Author: savitagayakhe <102364266+savitagayakhe@users.noreply.github.com>
+Date:   Wed Oct 7 04:23:04 2026 +0000
+
+    Working Gemini Terraform generation
+
+[33mcommit 17e48f07a433fc76636b7512465dcb618a27aa97[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: savitagayakhe <102364266+savitagayakhe@users.noreply.github.com>
+Date:   Tue Oct 6 19:29:16 2026 +0530
+
+    Initial commit
