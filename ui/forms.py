@@ -1,24 +1,94 @@
 import streamlit as st
 
 from llm.llm import LLMService
+from terraform.terraform_utils import save_terraform_file
 
 
 def render_requirement_form():
-    with st.form("requirement_form"):
-        requirements = st.text_area(
-            "Describe the infrastructure you want to create"
-        )
-        submitted = st.form_submit_button("Generate Terraform")
 
-    if not submitted:
-        return
+    st.header("Infrastructure Request")
 
-    if not requirements.strip():
-        st.warning("Enter your infrastructure requirements first.")
-        return
-
-    service = LLMService()
-    st.session_state["terraform_code"] = service.generate_terraform(
-        requirements
+    cloud = st.selectbox(
+        "Cloud Provider",
+        ["AWS", "Azure", "GCP"]
     )
-    st.session_state["provider_used"] = service.last_provider_used
+
+    resource = st.text_input(
+        "Resource Type"
+    )
+
+    region = st.text_input(
+        "Region"
+    )
+
+    count = st.number_input(
+        "Resource Count",
+        min_value=1,
+        max_value=50,
+        value=1
+    )
+
+    additional = st.text_area(
+        "Additional Requirements"
+    )
+
+    if st.button(
+        "Generate Terraform"
+    ):
+
+        requirements = f"""
+Cloud Provider: {cloud}
+Resource Type: {resource}
+Region: {region}
+Resource Count: {count}
+
+Additional Requirements:
+{additional}
+"""
+
+        try:
+
+            with st.spinner(
+                "Generating Terraform..."
+            ):
+
+                service = LLMService()
+
+                terraform_code = (
+                    service.generate_terraform(
+                        requirements
+                    )
+                )
+
+                # Save generated HCL
+                save_terraform_file(
+                    terraform_code
+                )
+
+                # Store UI state
+                st.session_state[
+                    "terraform_code"
+                ] = terraform_code
+
+                st.session_state[
+                    "provider_used"
+                ] = service.last_provider_used
+
+                # New code invalidates previous results
+                st.session_state[
+                    "validation_result"
+                ] = None
+
+                st.session_state[
+                    "plan_data"
+                ] = None
+
+                st.session_state[
+                    "approved"
+                ] = False
+
+        except Exception as ex:
+
+            st.error(
+                f"Terraform generation failed: {ex}"
+            )
